@@ -46,7 +46,7 @@ The project is split into small modules with clear responsibilities:
 
 ## Project Structure
 ```text
-AISystem7May_backup/
+AISystemchatbot/
 |-- app.py
 |-- README.md
 |-- requirements.txt
