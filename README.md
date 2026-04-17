@@ -267,6 +267,3 @@ If you want to show the project quickly on GitHub or in class:
 4. Ask an out-of-scope question such as `Tell me a joke`
 5. Run the evaluator to show saved results
 
-## License
-
-This project currently does not include a license file. Add one if you plan to share or reuse it publicly.
