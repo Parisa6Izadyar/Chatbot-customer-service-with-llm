@@ -1,0 +1,74 @@
+{
+  "rules": [
+    {
+      "rule_id": "ESC001",
+      "type": "intent",
+      "value": "speak_to_human",
+      "action": "escalate",
+      "reason": "The customer explicitly requested a human support agent."
+    },
+    {
+      "rule_id": "ESC002",
+      "type": "intent",
+      "value": "complaint",
+      "action": "answer_or_escalate",
+      "reason": "Complaints should be acknowledged carefully and may require a human handoff."
+    },
+    {
+      "rule_id": "ESC003",
+      "type": "keyword",
+      "value": "charged twice",
+      "action": "escalate",
+      "reason": "Duplicate charge cases require human review."
+    },
+    {
+      "rule_id": "ESC004",
+      "type": "keyword",
+      "value": "unauthorized transaction",
+      "action": "escalate",
+      "reason": "Unauthorized payment activity must be escalated immediately."
+    },
+    {
+      "rule_id": "ESC005",
+      "type": "keyword",
+      "value": "fraud",
+      "action": "escalate",
+      "reason": "Fraud-related cases are sensitive and require human review."
+    },
+    {
+      "rule_id": "ESC006",
+      "type": "keyword",
+      "value": "manager",
+      "action": "escalate",
+      "reason": "A request for a manager should be handed to a human agent."
+    },
+    {
+      "rule_id": "ESC007",
+      "type": "keyword",
+      "value": "account hacked",
+      "action": "escalate",
+      "reason": "Security-related issues must be escalated."
+    },
+    {
+      "rule_id": "ESC008",
+      "type": "keyword",
+      "value": "lawsuit",
+      "action": "escalate",
+      "reason": "Legal-risk language requires human review."
+    },
+    {
+      "rule_id": "ESC009",
+      "type": "confidence_below",
+      "value": 0.45,
+      "action": "escalate",
+      "reason": "Low-confidence classifications should not receive a definitive automated answer."
+    },
+    {
+      "rule_id": "ESC010",
+      "type": "max_clarifications",
+      "value": 2,
+      "action": "escalate",
+      "reason": "After repeated failed clarifications, the conversation should be handed to a human."
+    }
+  ]
+}

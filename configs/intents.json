@@ -1,0 +1,114 @@
+{
+  "intents": [
+    {
+      "name": "order_status",
+      "description": "Questions about order location, tracking, shipment progress, or delivery status.",
+      "examples": [
+        "Where is my order?",
+        "Track my package",
+        "What is my order status?",
+        "Has my order shipped?"
+      ]
+    },
+    {
+      "name": "shipping_info",
+      "description": "Questions about shipping times, delivery options, or shipping estimates.",
+      "examples": [
+        "How long does shipping take?",
+        "Do you offer express shipping?",
+        "What are your delivery options?",
+        "How many business days is standard shipping?"
+      ]
+    },
+    {
+      "name": "return_request",
+      "description": "Questions about return eligibility, return instructions, or how to start a return.",
+      "examples": [
+        "How do I return an item?",
+        "Is this order eligible for return?",
+        "I need to send back my purchase",
+        "Can I return these shoes?"
+      ]
+    },
+    {
+      "name": "refund_request",
+      "description": "Questions about refund eligibility, refund timing, or refund status.",
+      "examples": [
+        "When will my refund arrive?",
+        "I need a refund",
+        "How long do refunds take?",
+        "Was my refund approved?"
+      ]
+    },
+    {
+      "name": "cancel_order",
+      "description": "Questions about canceling an order before shipment.",
+      "examples": [
+        "Cancel my order",
+        "Can I cancel this purchase?",
+        "Stop my order before it ships",
+        "How do I cancel an order?"
+      ]
+    },
+    {
+      "name": "payment_issue",
+      "description": "Questions about failed payments, declined cards, duplicate charges, or billing issues.",
+      "examples": [
+        "My payment failed",
+        "I was charged twice",
+        "Why was my card declined?",
+        "There is a billing issue on my account"
+      ]
+    },
+    {
+      "name": "product_question",
+      "description": "Questions about product materials, sizing, features, or availability when information is in the knowledge base.",
+      "examples": [
+        "What material is this jacket made from?",
+        "Does this product come in other sizes?",
+        "Can you tell me more about this item?",
+        "Is this product available in blue?"
+      ]
+    },
+    {
+      "name": "complaint",
+      "description": "Customer dissatisfaction, frustration, or complaints about the shopping experience.",
+      "examples": [
+        "I want to complain about my order",
+        "Your service is terrible",
+        "I am very unhappy with this experience",
+        "This is unacceptable"
+      ]
+    },
+    {
+      "name": "speak_to_human",
+      "description": "Requests to talk to a real support agent or manager.",
+      "examples": [
+        "I want to speak to a human",
+        "Connect me to a support agent",
+        "Let me talk to a real person",
+        "I need a manager"
+      ]
+    },
+    {
+      "name": "out_of_scope",
+      "description": "Requests unrelated to ShopSmart e-commerce customer support.",
+      "examples": [
+        "Tell me a joke",
+        "What is the weather today?",
+        "Write me a poem",
+        "Help me with my homework"
+      ]
+    },
+    {
+      "name": "unclear",
+      "description": "Very vague, incomplete, or underspecified requests that need clarification.",
+      "examples": [
+        "Help me",
+        "I have a problem",
+        "Something is wrong",
+        "I need support"
+      ]
+    }
+  ]
+}

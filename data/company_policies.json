@@ -1,0 +1,78 @@
+{
+  "company_name": "ShopSmart",
+  "company_description": "ShopSmart is a fictional online retail store used for a university chatbot project.",
+  "policies": [
+    {
+      "doc_id": "POL001",
+      "title": "Shipping Policy",
+      "section": "Delivery Options",
+      "content": "ShopSmart offers standard shipping in 3 to 5 business days and express shipping in 1 to 2 business days. Delivery estimates start after payment is confirmed. Shipping times may be longer during holidays, peak sales, or severe weather."
+    },
+    {
+      "doc_id": "POL002",
+      "title": "Order Tracking Policy",
+      "section": "Tracking Orders",
+      "content": "Customers can track an order using the order number and the shipping confirmation details. If a customer asks for live order status and no order number is available, the assistant should ask for the order number before giving further help."
+    },
+    {
+      "doc_id": "POL003",
+      "title": "Return Policy",
+      "section": "Return Eligibility",
+      "content": "Most unused items can be returned within 30 days of delivery if they are in original packaging and in resellable condition. Items that are used, damaged by the customer, or missing major packaging materials are not eligible for a standard return."
+    },
+    {
+      "doc_id": "POL004",
+      "title": "Refund Policy",
+      "section": "Refund Processing",
+      "content": "Approved refunds are issued to the original payment method within 5 to 7 business days after the returned item is received and inspected. Bank processing times may add a short delay before the customer sees the refund on their statement."
+    },
+    {
+      "doc_id": "POL005",
+      "title": "Damaged or Incorrect Items Policy",
+      "section": "Special Cases",
+      "content": "If a customer receives a damaged, defective, or incorrect item, they should contact ShopSmart within 7 days of delivery. These cases may qualify for a replacement, store credit, or a full refund after review."
+    },
+    {
+      "doc_id": "POL006",
+      "title": "Cancellation Policy",
+      "section": "Cancel Before Shipment",
+      "content": "Orders can be canceled within 2 hours of placement if they have not entered shipping preparation. Once an order has shipped, it cannot be canceled and must follow the return process after delivery."
+    },
+    {
+      "doc_id": "POL007",
+      "title": "Payment Support Policy",
+      "section": "Payment Issues",
+      "content": "If a payment fails, the customer should verify card details, billing address, available balance, and internet connection before trying again. If funds appear temporarily reserved after a failed payment, the hold usually clears within 24 hours."
+    },
+    {
+      "doc_id": "POL008",
+      "title": "Billing Escalation Policy",
+      "section": "Sensitive Billing Cases",
+      "content": "Cases involving duplicate charges, fraud concerns, unauthorized transactions, or repeated billing errors must be escalated to a human support agent immediately. The chatbot should not make final billing decisions in these situations."
+    },
+    {
+      "doc_id": "POL009",
+      "title": "Human Escalation Policy",
+      "section": "When Human Support Is Needed",
+      "content": "The chatbot should escalate when the customer directly asks for a human, when the issue is sensitive, when confidence is low, or when the chatbot cannot provide a reliable answer based on policy. Escalation should be polite and transparent."
+    },
+    {
+      "doc_id": "POL010",
+      "title": "Product Information Policy",
+      "section": "Product Questions",
+      "content": "The chatbot may answer general product questions only when the requested information is clearly available in the provided knowledge or policy context. If the answer is not supported, the chatbot should say that it does not have enough verified information."
+    },
+    {
+      "doc_id": "POL011",
+      "title": "Complaint Handling Policy",
+      "section": "Customer Complaints",
+      "content": "If a customer is upset or dissatisfied, the chatbot should acknowledge the frustration, stay professional, and offer help within scope. If the complaint includes strong escalation language or cannot be resolved through policy guidance, it should be handed to a human agent."
+    },
+    {
+      "doc_id": "POL012",
+      "title": "Scope Policy",
+      "section": "Supported Topics",
+      "content": "The ShopSmart assistant is only for e-commerce customer service. It should not answer unrelated requests such as jokes, weather, politics, coding help, medical advice, school homework, or general trivia."
+    }
+  ]
+}

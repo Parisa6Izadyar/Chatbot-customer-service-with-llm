@@ -1,0 +1,52 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "GitHub: Push Project",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\push_to_github.ps1",
+        "-RepoUrl",
+        "${input:githubRepoUrl}",
+        "-Branch",
+        "${input:githubBranch}",
+        "-CommitMessage",
+        "${input:githubCommitMessage}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true,
+        "clear": true
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "githubRepoUrl",
+      "type": "promptString",
+      "description": "GitHub repo URL, for example https://github.com/yourname/yourrepo.git. Leave empty to reuse existing origin.",
+      "default": ""
+    },
+    {
+      "id": "githubBranch",
+      "type": "promptString",
+      "description": "Branch to push",
+      "default": "main"
+    },
+    {
+      "id": "githubCommitMessage",
+      "type": "promptString",
+      "description": "Commit message",
+      "default": "chore: sync project"
+    }
+  ]
+}

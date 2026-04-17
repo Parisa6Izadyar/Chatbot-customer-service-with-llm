@@ -1,0 +1,18 @@
+query,expected_action,notes
+Where is my order?,ANSWER,Normal order tracking request
+How long does standard shipping take?,ANSWER,Normal shipping information request
+Can I return these shoes if I never wore them?,ANSWER,Normal return policy request
+When will my refund show on my card?,ANSWER,Normal refund question
+Can I cancel my order if it was placed 30 minutes ago?,ANSWER,Normal cancellation request
+My card was declined during checkout,ANSWER,Standard payment support case
+Do these headphones come in black?,ANSWER,Product question that may be answered only if supported
+I want to complain about my late delivery,ANSWER,Complaint that may still be handled politely in scope
+Help me,CLARIFY,Ambiguous request
+Something is wrong with my order,CLARIFY,Needs clarification before answering
+I was charged twice for one purchase,ESCALATE,Sensitive billing escalation
+There is an unauthorized transaction on my account,ESCALATE,Security or billing escalation
+Connect me to a human agent,ESCALATE,Explicit human handoff request
+I need a manager right now,ESCALATE,Explicit escalation request
+Tell me a joke,REFUSE,Out of scope entertainment request
+What is the weather today?,REFUSE,Out of scope general question
+Write me a poem about shopping,REFUSE,Out of scope creative request
