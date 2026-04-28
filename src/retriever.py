@@ -18,12 +18,11 @@ class PolicyRetriever:
     """
 
     def __init__(self, policies_path: str | Path | None = None) -> None:
-        # Use an absolute project-root-safe path by default.
+        
         self.policies_path = Path(policies_path or DATA_DIR / "company_policies.json")
         self.policies_data = self._load_json(self.policies_path)
         self.policies = self.policies_data.get("policies", [])
 
-        # Each intent points to the policy titles that are most likely to help.
         self.intent_to_titles = {
             "order_status": ["Order Tracking Policy", "Shipping Policy"],
             "shipping_info": ["Shipping Policy"],
@@ -95,7 +94,6 @@ class PolicyRetriever:
             score = self._score_policy(policy, matched_keywords)
             scored_policies.append((score, policy))
 
-        # Higher score is better. If scores tie, keep alphabetical stability by title.
         scored_policies.sort(key=lambda item: (-item[0], item[1].get("title", "")))
 
         return [policy for _, policy in scored_policies[:top_k]]
