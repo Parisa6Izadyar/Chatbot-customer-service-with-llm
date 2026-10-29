@@ -30,7 +30,7 @@ This is not just a chatbot wrapper around an API. The main focus is **trust-awar
 - refusal for out-of-scope requests
 - local fallback behavior when live LLM access is unavailable
 
-The implementation is intentionally simple and beginner-friendly so the logic is easy to inspect, explain, and extend.
+The rule-based retrieval and routing logic is kept explicit for reproducible testing.
 
 ## Features
 
@@ -41,7 +41,6 @@ The implementation is intentionally simple and beginner-friendly so the logic is
 - OpenAI mode, Ollama mode, and demo fallback mode
 - CSV logging of chatbot interactions
 - Basic evaluation script for sample queries
-- VS Code task and PowerShell helper for pushing the project to GitHub
 
 ## How It Works
 
@@ -78,119 +77,73 @@ The project supports three modes:
 
 This makes the project easier to demo even without paid API access.
 
-## Project Structure
+## Run in GitHub Codespaces (no local setup)
 
-```text
-AISystemchatbot/
-|-- app.py
-|-- README.md
-|-- requirements.txt
-|-- Dockerfile
-|-- docker-compose.yml
-|-- configs/
-|   |-- escalation_rules.json
-|   |-- intents.json
-|   `-- system_prompt.txt
-|-- data/
-|   |-- company_policies.json
-|   |-- evaluation_queries.csv
-|   `-- logs.csv
-|-- results/
-|   |-- figures/
-|   `-- metrics/
-|-- scripts/
-|   `-- push_to_github.ps1
-|-- src/
-|   |-- __init__.py
-|   |-- chat_engine.py
-|   |-- decision_router.py
-|   |-- evaluator.py
-|   |-- input_analyzer.py
-|   |-- llm_interface.py
-|   |-- logger.py
-|   |-- paths.py
-|   `-- retriever.py
-|-- tests/
-|   `-- test_basic.py
-`-- .vscode/
-    `-- tasks.json
+1. Open this repository on GitHub and select **Code → Codespaces → Create codespace**.
+2. In the Codespaces terminal, run:
+
+```bash
+CHATBOT_MODE=demo python -m streamlit run app.py --server.address 0.0.0.0
 ```
 
-## Quick Start
+3. Open the forwarded **port 8501** from the **Ports** tab. No API key, Ollama installation, or local Python setup is needed for demo mode. Stop the server with `Ctrl+C` when finished. Codespaces may incur usage charges depending on your GitHub plan and allowances.
 
-### 1. Create a virtual environment
+## Local quick start
 
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
+Requires Python 3.11 or later.
+
+```bash
+python -m pip install -r requirements.txt
 ```
 
-### 2. Install dependencies
+For an offline demonstration, set `CHATBOT_MODE=demo` in your environment, then run:
 
-```powershell
-pip install -r requirements.txt
+```bash
+python -m streamlit run app.py
 ```
 
-### 3. Configure environment variables
+For an interactive terminal session:
 
-Copy `.env.example` to `.env` and set your values if you want live OpenAI mode.
-
-Example `.env`:
-
-```env
-OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_MODEL=gpt-4o-mini
+```bash
+python -m src.chat_engine
 ```
 
-You can also set the key directly in PowerShell:
+To run the tests and action-routing evaluation:
 
-```powershell
-$env:OPENAI_API_KEY="your_api_key_here"
+```bash
+python -m pytest -q
+python scripts/run_demo_evaluation.py
 ```
 
-## Run The Project
+The evaluation writes `results/metrics/evaluation_results.csv`. A successful run should report 17 matching actions on the supplied 17 examples. These are regression cases, not an independent test set.
 
-### Streamlit Web App
+### Optional live models
 
-```powershell
-streamlit run app.py
-```
+To use the OpenAI API, set `OPENAI_API_KEY` in your environment or a local `.env` file (never commit credentials), and leave `CHATBOT_MODE` unset. If no OpenAI key is present, the app attempts a local Ollama connection before falling back to demo mode. Live modes require additional setup and are not covered by the deterministic CI checks.
 
-### Console Chatbot
+## Main components
 
-```powershell
-python src\chat_engine.py
-```
+| File | Purpose |
+| --- | --- |
+| `app.py` | Streamlit chat interface |
+| `src/chat_engine.py` | Message processing and four-way action routing |
+| `src/input_analyzer.py` | Keyword-based intent and escalation analysis |
+| `src/retriever.py` | Policy lookup from local JSON documents |
+| `src/llm_interface.py` | Demo responses and optional model integration |
+| `src/evaluator.py` | Evaluation of routing decisions |
+| `tests/` | Automated regression and policy-alignment checks |
 
-Type `exit` or `quit` to stop the console chatbot.
+## Evaluation and limitations
 
-### Evaluation Script
+- The original baseline matched **16/17 (94.1%)** expected actions; the revised deterministic demo matched **17/17 (100%)** on the same examples. This is **in-sample routing agreement**, not response accuracy, real-world model accuracy, or generalization.
+- Keyword retrieval is intentionally simple; no embeddings or vector database are used.
+- There is no live order-management, payment, or ticketing integration.
+- Streamlit and OpenAI/Ollama are not end-to-end validated by the CI workflow.
+- Local interaction logs may contain user-entered text. Use synthetic examples, avoid personal information, and do not commit runtime logs.
 
-```powershell
-python src\evaluator.py
-```
+See `results/metrics/PROJECT_METRICS_AND_CV.md` for the metric definitions and `VERIFICATION_REPORT.md` for test notes.
 
-This writes evaluation results to:
-
-```text
-results/metrics/evaluation_results.csv
-```
-
-### Basic Tests
-
-Install `pytest` if it is not already available in your environment:
-
-```powershell
-pip install pytest
-```
-
-Then run:
-
-```powershell
-python -m pytest
-```
-
-## Example User Queries
+## Example user queries
 
 - `Where is my order?`
 - `How long does standard shipping take?`
@@ -199,71 +152,4 @@ python -m pytest
 - `I was charged twice for one purchase`
 - `Connect me to a human agent`
 - `What is the weather today?`
-
-## GitHub Push From VS Code
-
-This project includes a helper script at `scripts/push_to_github.ps1` and a VS Code task at `.vscode/tasks.json`.
-
-To push the project from VS Code:
-
-1. Create a new empty GitHub repository.
-2. Open this folder in VS Code.
-3. Press `Ctrl+Shift+P`.
-4. Run `Tasks: Run Task`.
-5. Choose `GitHub: Push Project`.
-6. Enter:
-   - your GitHub repository URL
-   - the branch name, usually `main`
-   - a commit message
-7. If prompted, enter your Git name and email.
-8. Sign in to GitHub if VS Code asks for authentication.
-
-The script will:
-- initialize Git if needed
-- create a commit if there are local changes
-- set or update the `origin` remote
-- push the project to GitHub
-
-You can also run it manually:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\push_to_github.ps1 `
-  -RepoUrl "https://github.com/YOUR_USERNAME/YOUR_REPO.git" `
-  -Branch "main" `
-  -CommitMessage "Initial project upload"
-```
-
-## Known Limitations
-
-- Retrieval is based on simple keyword overlap rather than embeddings or vector search.
-- The system does not connect to a real order, payment, or ticketing backend.
-- Automated test coverage is still minimal.
-- Multi-turn memory is limited.
-- Demo mode is useful for testing but does not match full live model quality.
-
-## Future Improvements
-
-- integrate the deterministic analyzer more deeply into routing decisions
-- expand automated tests
-- improve retrieval quality with embeddings or semantic search
-- add richer evaluation metrics
-- support stronger multi-turn clarification handling
-- connect the chatbot to a real support backend
-
-## Submission Notes
-
-- No secret API key is stored in the repository.
-- `.gitignore` excludes virtual environments, environment files, logs, and caches.
-- `data/logs.csv` can be regenerated during use.
-- Evaluation output is generated at runtime and does not need to be committed.
-
-## Suggested Demo Flow
-
-If you want to show the project quickly on GitHub or in class:
-
-1. Run the Streamlit app.
-2. Ask an in-scope question such as `Where is my order?`
-3. Ask an escalation question such as `I was charged twice`
-4. Ask an out-of-scope question such as `Tell me a joke`
-5. Run the evaluator to show saved results
 

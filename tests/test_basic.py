@@ -14,5 +14,5 @@ def test_chat_engine_returns_a_response_in_demo_mode():
     assert isinstance(result["response"], str)
     assert result["response"].strip() != ""
     assert result["action"] in {"ANSWER", "CLARIFY", "ESCALATE", "REFUSE"}
-    assert result["llm_mode"] in {"demo", "llm"}
+    assert result["llm_mode"] in {"demo", "llm", "ollama"}
     assert "llm_mode_reason" in result

@@ -115,6 +115,10 @@ class InputAnalyzer:
         """
         user_words = set(self._keyword_tokens(user_text))
 
+        if "refund" in user_words or "refunds" in user_words:
+            return {"intent": "refund_request", "confidence": 0.9,
+                    "matched_keywords": ["refund"]}
+
         best_intent = "unclear"
         best_score = 0
         matched_keywords: List[str] = []
