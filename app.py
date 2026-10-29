@@ -52,7 +52,7 @@ def main() -> None:
     )
 
     st.title("TrustAware E-commerce Customer Service Chatbot")
-    st.caption("Prototype app for a university project using the OpenAI API.")
+    st.caption("Policy-based customer support prototype · Demo, OpenAI, or local Ollama mode")
 
     init_session_state()
     engine = create_engine()
