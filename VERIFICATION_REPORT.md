@@ -1,23 +1,16 @@
-# Test notes
+# Verification notes
 
-## Commands
+## Reproduce
 
 ```bash
-python -m pip install -r requirements.txt
-python -m pytest -q
-python scripts/run_demo_evaluation.py
+CHATBOT_MODE=demo python -m pytest -q
+CHATBOT_MODE=demo python scripts/run_demo_evaluation.py
 ```
 
-Tests use a deterministic mode fixture to avoid network calls and API costs. The evaluation script writes `results/metrics/evaluation_results.csv`.
+## Results
 
-## Previously observed results
+The reviewed local revision passed **10/10 tests** and matched **17/17 expected routing actions** in deterministic demo mode. The tests include two subprocess checks of runtime mode selection. GitHub Actions must also complete on the latest commit before merging.
 
-The local project revision was previously reported to pass 8 tests and match 17 of 17 expected routing actions. Those results were obtained before the latest GitHub-only edits and **do not verify the current branch**.
+The 17 cases were used while adjusting the routing logic; the result is an **in-sample regression measure**, not independent model validation. The tests do not establish response factuality across unseen inputs or end-to-end reliability of OpenAI, Ollama, or the Streamlit interface.
 
-The evaluation set is small and was used while developing the routing rules. Its score is an in-sample regression measure, not an estimate of live LLM accuracy or performance on new requests.
-
-## Remaining checks
-
-- Run the commands above against this branch in a clean environment.
-- Test the Streamlit interface and Ollama/OpenAI paths separately.
-- Review the file changes before merging into `main`.
+Runtime logs are excluded from version control. Use synthetic messages when demonstrating the app.
