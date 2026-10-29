@@ -11,5 +11,4 @@ __pycache__/
 
 *.log
 data/logs.csv
-results/metrics/
 results/figures/
