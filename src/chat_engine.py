@@ -14,6 +14,13 @@ from src.input_analyzer import InputAnalyzer
 from src.retriever import PolicyRetriever
 
 
+def user_intent_is_vague(analysis: Dict[str, Any]) -> bool:
+    return analysis.get("user_text", "").strip().lower() in {
+        "help me", "i need help", "help", "support", "problem",
+        "i have a problem", "something is wrong"
+    }
+
+
 class ChatEngine:
     """
     Main chatbot orchestration pipeline.
@@ -31,6 +38,8 @@ class ChatEngine:
         return [token for token in tokens if len(token) > 2 and token not in short_words]
 
     def _choose_action(self, analysis: Dict[str, Any], understanding: Dict[str, Any]) -> str:
+        if analysis.get("is_ambiguous", False) and user_intent_is_vague(analysis):
+            return "CLARIFY"
         if analysis.get("is_out_of_scope", False) or understanding.get("out_of_scope", False):
             return "REFUSE"
         if analysis.get("needs_escalation", False) or understanding.get("needs_escalation", False):
@@ -66,6 +75,7 @@ class ChatEngine:
             retrieved_context=retrieved_context,
             action=action,
             analysis_reason=understanding.get("reason", ""),
+            intent=resolved_intent,
         )
 
         policy_titles = " | ".join([policy.get("title", "") for policy in retrieved_policies])
