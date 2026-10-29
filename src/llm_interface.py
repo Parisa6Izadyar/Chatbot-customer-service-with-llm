@@ -80,11 +80,14 @@ class LLMInterface:
         self._fallback_analyzer = InputAnalyzer()
         self.client = None
 
-        # Priority:
-        # 1) OpenAI if API key exists
-        # 2) Local Ollama if installed
-        # 3) Demo fallback
-        if OpenAI is not None and self.api_key:
+        forced_mode = os.getenv("CHATBOT_MODE", "auto").lower()
+        if forced_mode not in {"auto", "demo"}:
+            raise ValueError("CHATBOT_MODE must be 'auto' or 'demo'.")
+
+        if forced_mode == "demo":
+            self.mode = "demo"
+            self.mode_reason = "Deterministic demo mode selected."
+        elif OpenAI is not None and self.api_key:
             self.mode = "llm"
             self.client = OpenAI(api_key=self.api_key)
             self.mode_reason = f"Live OpenAI mode is ready with model `{self.model_name}`."
@@ -241,8 +244,6 @@ User message:
                 "so I can guide you correctly?"
             )
 
-        # Choose deterministic demo replies by resolved intent, not by incidental
-        # keywords in concatenated retrieved policy documents.
         intent_replies = {
             "cancel_order": "[Demo mode] Orders may be canceled within 2 hours of placement if shipping preparation has not started. Shipped orders cannot be canceled; please use the return process after delivery.",
             "return_request": "[Demo mode] Most unused items may be returned within 30 days of delivery if they remain in original packaging and resellable condition.",
