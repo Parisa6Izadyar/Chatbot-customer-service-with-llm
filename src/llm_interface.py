@@ -311,6 +311,7 @@ Write only the final reply that should be shown to the customer.
         retrieved_context: str,
         action: str,
         analysis_reason: str = "",
+        intent: str = "unclear",
     ) -> str:
         """
         Generate the final customer-facing reply.
@@ -330,7 +331,6 @@ Write only the final reply that should be shown to the customer.
                 retrieved_context=retrieved_context,
                 action=action,
                 analysis_reason=analysis_reason,
-                intent=intent,
             )
 
             try:
