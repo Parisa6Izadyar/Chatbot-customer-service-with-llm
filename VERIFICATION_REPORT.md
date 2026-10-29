@@ -1,24 +1,23 @@
-# Verification report — 2026-10-29
+# Test notes
 
-Source: original user-provided ZIP and reviewed local revision.
+## Commands
 
-## Local tests before GitHub publication
-
-```text
-8 passed
+```bash
+python -m pip install -r requirements.txt
+python -m pytest -q
+python scripts/run_demo_evaluation.py
 ```
 
-## Demo evaluation
+Tests use a deterministic mode fixture to avoid network calls and API costs. The evaluation script writes `results/metrics/evaluation_results.csv`.
 
-```text
-{'number_of_queries': 17, 'matches_expected': 17, 'counts_per_action': {'ANSWER': 8, 'CLARIFY': 2, 'ESCALATE': 4, 'REFUSE': 3}}
-```
+## Previously observed results
 
-## Scope and limitations
+The local project revision was previously reported to pass 8 tests and match 17 of 17 expected routing actions. Those results were obtained before the latest GitHub-only edits and **do not verify the current branch**.
 
-- Demo mode only; live OpenAI/Ollama and Streamlit UI were not end-to-end tested.
-- The 17 cases were reused during bug fixing, so results are in-sample regression measurements.
-- Three added tests check selected reply timing limits against policy JSON; this is not comprehensive answer-quality evaluation.
-- Runtime logs and local secrets are excluded; `data/logs.csv` is ignored.
-- These numbers describe local testing of the reviewed revision, **not** GitHub Actions CI.
-- GitHub publication is proposed on a separate review branch; `main` remains unchanged until a PR is approved and merged.
+The evaluation set is small and was used while developing the routing rules. Its score is an in-sample regression measure, not an estimate of live LLM accuracy or performance on new requests.
+
+## Remaining checks
+
+- Run the commands above against this branch in a clean environment.
+- Test the Streamlit interface and Ollama/OpenAI paths separately.
+- Review the file changes before merging into `main`.
