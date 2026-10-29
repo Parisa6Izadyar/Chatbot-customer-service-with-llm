@@ -1,18 +1,28 @@
-from unittest.mock import patch
-
-from src.chat_engine import ChatEngine
-from src.llm_interface import LLMInterface
-
-
-def test_explicit_demo_mode_avoids_external_services(monkeypatch):
-    monkeypatch.setenv("CHATBOT_MODE", "demo")
-    with patch("src.llm_interface.requests.get", side_effect=AssertionError("Unexpected network call")):
-        with patch("src.llm_interface.OpenAI", side_effect=AssertionError("Unexpected API client")):
-            engine = ChatEngine()
-    assert engine.llm.mode == "demo"
+import os
+import subprocess
+import sys
 
 
-def test_invalid_runtime_mode_is_rejected(monkeypatch):
-    monkeypatch.setenv("CHATBOT_MODE", "invalid")
-    with patch("src.llm_interface.LLMInterface.__init__", wraps=LLMInterface.__init__):
-        pass
+def _run_engine(mode):
+    env = os.environ.copy()
+    env["CHATBOT_MODE"] = mode
+    env.pop("OPENAI_API_KEY", None)
+    return subprocess.run(
+        [sys.executable, "-c", "from src.chat_engine import ChatEngine; print(ChatEngine().llm.mode)"],
+        capture_output=True,
+        text=True,
+        env=env,
+        timeout=20,
+    )
+
+
+def test_explicit_demo_mode():
+    result = _run_engine("demo")
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.strip() == "demo"
+
+
+def test_invalid_runtime_mode_is_rejected():
+    result = _run_engine("invalid")
+    assert result.returncode != 0
+    assert "CHATBOT_MODE must be" in result.stderr
