@@ -115,7 +115,6 @@ class InputAnalyzer:
         """
         user_words = set(self._keyword_tokens(user_text))
 
-        # Prefer explicit refund terminology over generic timing examples.
         if "refund" in user_words or "refunds" in user_words:
             return {"intent": "refund_request", "confidence": 0.9,
                     "matched_keywords": ["refund"]}
