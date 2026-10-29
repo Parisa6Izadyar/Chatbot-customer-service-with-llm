@@ -273,6 +273,6 @@ If you want to show the project quickly on GitHub or in class:
 
 Run `python -m pytest -q` and `python scripts/run_demo_evaluation.py` after installing `requirements.txt`.
 
-On the supplied 17-case evaluation set, action-routing matches improved from **16/17 (94.1%)** in the original baseline to **17/17 (100%)** after regression fixes. The updated test suite has **8 tests**. These are **in-sample deterministic demo-mode regression results**, not live LLM accuracy or generalization estimates. OpenAI/Ollama and Streamlit were not end-to-end tested. See `results/metrics/PROJECT_METRICS_AND_CV.md` for the claim boundaries and `VERIFICATION_REPORT.md` for the local verification report.
+On the supplied 17-case evaluation set, action-routing matches improved from **16/17 (94.1%)** in the original baseline to **17/17 (100%)** after regression fixes. The test suite includes **8 tests**, with a deterministic fixture added for reproducibility. These are **in-sample deterministic demo-mode regression results**, not live LLM accuracy or generalization estimates. OpenAI/Ollama and Streamlit were not end-to-end tested. See `results/metrics/PROJECT_METRICS_AND_CV.md` for measurement scope and `VERIFICATION_REPORT.md` for current verification status. The latest branch changes have not yet been independently executed.
 
 Runtime log `data/logs.csv` is ignored and must not be committed. The metrics CSV is intentionally versioned as a small, reproducible example output.
