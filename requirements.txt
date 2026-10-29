@@ -1,4 +1,4 @@
 openai
 streamlit
-streamlit
 requests
+pytest
