@@ -216,6 +216,7 @@ User message:
         retrieved_context: str,
         action: str,
         analysis_reason: str = "",
+        intent: str = "unclear",
     ) -> str:
         """
         Safe fallback response generator for demo mode.
@@ -239,6 +240,19 @@ User message:
                 "[Demo mode] Could you share a little more detail about your issue "
                 "so I can guide you correctly?"
             )
+
+        # Choose deterministic demo replies by resolved intent, not by incidental
+        # keywords in concatenated retrieved policy documents.
+        intent_replies = {
+            "cancel_order": "[Demo mode] Orders may be canceled within 2 hours of placement if shipping preparation has not started. Shipped orders cannot be canceled; please use the return process after delivery.",
+            "return_request": "[Demo mode] Most unused items may be returned within 30 days of delivery if they remain in original packaging and resellable condition.",
+            "refund_request": "[Demo mode] Approved refunds are usually issued to the original payment method within 5 to 7 business days after the return is received and inspected.",
+            "shipping_info": "[Demo mode] Standard shipping usually takes 3 to 5 business days; express shipping takes 1 to 2 business days after payment confirmation.",
+            "order_status": "[Demo mode] Please provide your order number and shipping confirmation details to check the tracking information. I cannot access live order status in demo mode.",
+            "payment_issue": "[Demo mode] If payment fails, check your card details, billing address, balance, and connection. Temporary holds usually clear within 24 hours.",
+        }
+        if intent in intent_replies:
+            return intent_replies[intent]
 
         clean_context = retrieved_context.replace("\n", " ").strip()
 
@@ -307,6 +321,7 @@ Write only the final reply that should be shown to the customer.
                 retrieved_context=retrieved_context,
                 action=action,
                 analysis_reason=analysis_reason,
+                intent=intent,
             )
 
         if self.mode == "ollama":
@@ -315,6 +330,7 @@ Write only the final reply that should be shown to the customer.
                 retrieved_context=retrieved_context,
                 action=action,
                 analysis_reason=analysis_reason,
+                intent=intent,
             )
 
             try:
@@ -342,6 +358,7 @@ Write only the final reply that should be shown to the customer.
                     analysis_reason=(
                         f"{analysis_reason} Fallback used because Ollama response failed: {exc}"
                     ).strip(),
+                    intent=intent,
                 )
 
         prompt = self._build_generation_prompt(
@@ -374,6 +391,7 @@ Write only the final reply that should be shown to the customer.
                 analysis_reason=(
                     f"{analysis_reason} Fallback used because OpenAI response failed: {exc}"
                 ).strip(),
+                intent=intent,
             )
 
         return self._generate_demo_response(
@@ -381,6 +399,7 @@ Write only the final reply that should be shown to the customer.
             retrieved_context=retrieved_context,
             action=action,
             analysis_reason=analysis_reason,
+            intent=intent,
         )
 
 
